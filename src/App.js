@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    data: [
+      { name: "Learn React", active: true },
+      { name: "Drink Tea", active: false },
+      { name: "Drink Coffee", active: false },
+    ],
+  };
+
+  updateState(idx) {
+    const arr = this.state.data;
+    const result = arr.map((el, i) => {
+      return idx === i ? { ...el, active: true } : el;
+    });
+    this.setState({ data: result });
+  };
+
+  render() {
+    const { data } = this.state;
+    return (
+      <div className="App">
+        <ul>
+          {data.map((el, i) => {
+            return el.active ? (
+              <li key={i}>{el.name}</li>
+            ) : (
+              <li key={i} className="disabled">
+                {el.name}{" "}
+                <button onClick={() => this.updateState(i)}>Активировать</button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default App;
